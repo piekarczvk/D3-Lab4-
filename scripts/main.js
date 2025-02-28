@@ -2,17 +2,33 @@
 
 // PART 1 - Draw a tree
 // - load data
-d3.csv('data/music_mock.csv', d=> ({
+d3.csv('data/music_mock.csv', d => ({
     genre: d.genre,
     subgenre: d.subgenre,
-    streams: +d.streams,
-    top: +d.top
-
-})).then(data=>{
-    console.log("RAW DATA", data);
-    processTree(data);
-})
+    streams: +d.streams  // Convert streams to a number
+})).then(data => {
+    console.log("Raw Data:", data);  // Check if data is loaded correctly
+    processTree(data);  // Pass data to the next function
+}).catch(error => {
+    console.error("Error loading data:", error);
+});
 // - transform data into a rollup and then a hierarchy
+function processTree(data) {
+    let nestedData=d3.rollup(
+    data,
+    v=>d3.mean(v, d=>d.streams), //compute average streams per subgenre 
+    d=>d.genre, // group by genre
+    d=>d.subgenre //group by subgenre second level)
+    );
+    console.log("Grouped Data:", nestedData);
+
+    let hierarchyRoot=d3.hierarchy(nestedData,d=>d[1])
+        .sum(d=>d[1])
+        .sort((a,b)=>b.value-a.value);
+    console.log("Hierarchy Data:", hierarchyRoot);
+    drawLinkage(hierarchyRoot.copy(),'#tree1') //passing to the visualization function
+}
+
 // - create a tree generator
 // - set up an svg selection
 // - extract node data and link data
