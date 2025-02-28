@@ -62,7 +62,25 @@ export default class Map{
 
     #renderPoints(){
         // PART 3
-        // to be completed
+        if (!this.data || !this.projection) return;
+        let points= this.pointGroup.selectAll('circle.point')
+            .data(this.data)
+            .join('circle')
+            .classed('point',true)
+            .attr('cx', d => {
+                let proj = this.projection([d[1], d[0]]);
+                return proj ? proj[0] : 0; // Default to 0 if undefined
+            })
+            .attr('cy', d => {
+                let proj = this.projection([d[1], d[0]]);
+                return proj ? proj[1] : 0;
+            })
+            .attr('r',d=>d[2])
+            .attr('fill', 'red')
+            .attr('opacity',0.7)
+            .attr('stroke','#000');
+            
+
     
     }
 
