@@ -55,7 +55,8 @@ const size = 800, padding = 30;
 function drawLinkage(hierarchyRoot, container){
 
     // Tree Generator (d3.tree)
-    // let treeGen = ...
+   let treeGen = d3.tree().size([size-2*padding, size-2*padding]);
+
 
     // put the hierachy through a tree generator
     // will compute the x and y of each node
@@ -68,13 +69,18 @@ function drawLinkage(hierarchyRoot, container){
     let chart = svg.append('g').attr('transform',`translate(${padding},${padding})`);
 
     // extract node and link data from hierarchy
-    // let nodesData = ...
-    // let linksData = ...
-    // console.log('nodes: ', nodesData);console.log('links: ',linksData);
+    let nodesData = hierarchyRoot.descendants();
+
+    let linksData = hierarchyRoot.links();
+
+    console.log('nodes: ', nodesData);
+    console.log('links: ',linksData);
 
     // Link generator (d3.link)
     // x and y accessors can be fliped to draw the tree horizontally
-    // let linkGen = ...
+    let linkGen = d3.linkHorizontal()
+        .x(d=>d.y)
+        .y(d=>d.x);
 
     // Draw nodes - groups of circles and text
     // Note the switch in x and y translation to draw the tree horizontally
@@ -121,7 +127,8 @@ function drawLinkage(hierarchyRoot, container){
 // function to draw a pack layout
 function drawPack(hierarchyRoot, container){
     // Pack Generator
-    // let packGen = ...
+    let pacGen=d3.pack().size([size-2*padding,size-2*padding].padding(5))
+    
 
     // put the hierarchy through the pack generator
     // will compute x y and r attributes of each node (radius already square-rooted)
