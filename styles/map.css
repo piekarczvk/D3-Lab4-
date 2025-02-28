@@ -1,0 +1,11 @@
+
+svg.map path.regions{
+    fill: #eeeeee;
+    stroke-width: 1px;
+    stroke: lightslategrey;
+}
+
+svg.map circle.point{
+    fill-opacity: 0.7;
+    fill: teal;
+}

@@ -1,0 +1,11 @@
+@import url('./map.css');
+
+svg.viz{
+    border: solid 1px #333;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+svg.viz text.title{
+    font-size: 16px;
+}
